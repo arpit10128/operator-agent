@@ -22,6 +22,7 @@ type DialogSearchListProps<T> = {
   filterFn: (item: T, query: string) => boolean;
   renderItem: (item: T, isSelected: boolean) => ReactNode;
   getKey: (item: T) => string;
+  initialSelected?: string | number;
   placeholder?: string;
   emptyText?: string;
 };
@@ -33,10 +34,27 @@ export function DialogSearchList<T>({
   filterFn,
   renderItem,
   getKey,
+  initialSelected,
   placeholder = "search",
   emptyText = "No results",
 }: DialogSearchListProps<T>) {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(() => {
+    if (typeof initialSelected === "number") {
+      return Math.max(
+        0,
+        Math.min(initialSelected, items.length - 1),
+      );
+    }
+
+    if (typeof initialSelected === "string") {
+      const index = items.findIndex(
+        (item) => getKey(item) === initialSelected,
+      );
+      return index >= 0 ? index : 0;
+    }
+
+    return 0;
+  });
   const [searchValue, setSearchValue] = useState("");
   const inputRef = useRef<InputRenderable>(null);
   const scrollRef = useRef<ScrollBoxRenderable>(null);
@@ -45,14 +63,20 @@ export function DialogSearchList<T>({
 
   const handleContentChange = useCallback(() => {
     const text = inputRef.current?.value ?? "";
+    const nextFiltered = text
+      ? items.filter((item) => filterFn(item, text))
+      : items;
     setSearchValue(text);
     setSelectedIndex(0);
+    if (nextFiltered[0] && onHighlight) {
+      onHighlight(nextFiltered[0]);
+    }
 
     const scrollbox = scrollRef.current;
     if (scrollbox) {
       scrollbox.scrollTo(0);
     }
-  }, []);
+  }, [filterFn, items, onHighlight]);
 
   const filtered = searchValue
     ? items.filter((item) => filterFn(item, searchValue))

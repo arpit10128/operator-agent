@@ -95,10 +95,10 @@ export function KeyboardLayerProvider({
       if (responder && responder()) {
         return;
       }
-
-      // No responder handles it - exit
-      renderer.destroy();
     }
+
+    // No responder handles it - exit
+    renderer.destroy();
   });
 
   return (

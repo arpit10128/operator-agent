@@ -43,6 +43,7 @@ export const ThemeDialogContent = () => {
       items={THEMES}
       onSelect={handleSelect}
       onHighlight={handleHighlight}
+      initialSelected={currentTheme.name}
       filterFn={(t, query) =>
         t.name.toLowerCase().includes(query.toLowerCase())
       }
