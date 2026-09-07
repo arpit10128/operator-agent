@@ -49,7 +49,9 @@ export function NewSession() {
       try {
         const res = await apiClient.sessions.$post({
           json: {
-            title: state.message.slice(0, 100), // TODO: automatic title formation
+            title: Array.from(state.message)
+              .slice(0, 100)
+              .join(""), // TODO: automatic title formation
             cwd: process.cwd(),
             initialMessage: {
               role: "USER",

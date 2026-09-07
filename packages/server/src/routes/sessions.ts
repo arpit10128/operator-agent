@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { findSupportedChatModel } from "@operator/shared";
 import { Hono } from "hono";
-import { db } from "@operator/database";
+import { db } from "@operator/database/client";
 import {
   Role,
   Mode,

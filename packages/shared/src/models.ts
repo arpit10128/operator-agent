@@ -42,17 +42,7 @@ export const SUPPORTED_CHAT_MODELS = [
     },
   },
 
-  // 4. Google: Gemini 2.5 Flash (Super fast execution for light edits and quick terminal commands)
-  {
-    id: "google/gemini-2.5-flash:free",
-    provider: "openrouter",
-    pricing: {
-      inputUsdPerMillionTokens: 0.075, // Dummy Price
-      outputUsdPerMillionTokens: 0.3, // Dummy Price
-    },
-  },
-
-  // 5. OpenRouter: Free Models Router (Automatically routes to the best available free model)
+  // 4. OpenRouter: Free Models Router (Automatically routes to the best available free model)
   {
     id: "openrouter/free",
     provider: "openrouter",
